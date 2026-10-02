@@ -1,177 +1,731 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wei Zuen</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lim Wei Zuen</title>
+  <meta name="description" content="Lim Wei Zuen, Android developer helping revolutionize agriculture through technology. Kotlin, Jetpack Compose, Java, .NET.">
+  <meta property="og:title" content="Lim Wei Zuen">
+  <meta property="og:description" content="Android developer helping revolutionize agriculture through technology.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#dfeee0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200..800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font: "Outfit", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+      --page: #e6ebe2;
+      --page-ink: #172017;
+    }
+    /* Phone palette (Material-You-style tonal colours). Dark theme lives under .phone.dark */
+    .phone {
+      --surface: #f6fbf1;
+      --surface-2: #eaf1e5;
+      --on: #171d17;
+      --on-var: #414941;
+      --outline: #c1c9bd;
+      --primary: #2f6a3c;
+      --on-primary: #ffffff;
+      --pc: #b2f2b8;
+      --on-pc: #00210a;
+      --sc: #d3e8d0;
+      --on-sc: #0f1f10;
+      --tc: #bcebee;
+      --on-tc: #002022;
+      --glass: rgba(246, 251, 241, .78);
+      --w1: #b6e5c0; --w2: #c4e6ea; --w3: #e6f1c6; --w0: #dbeedd;
+    }
+    .phone.dark {
+      --surface: #101510;
+      --surface-2: #1b221b;
+      --on: #dfe4da;
+      --on-var: #c1c9bd;
+      --outline: #3d463d;
+      --primary: #96d59e;
+      --on-primary: #00391a;
+      --pc: #145128;
+      --on-pc: #b2f2b8;
+      --sc: #384b37;
+      --on-sc: #d3e8d0;
+      --tc: #1f4d50;
+      --on-tc: #bcebee;
+      --glass: rgba(16, 21, 16, .8);
+      --w1: #1d4a2b; --w2: #173f45; --w3: #3a4a1d; --w0: #0f1a12;
+    }
+
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body {
+      margin: 0; min-height: 100svh;
+      display: grid; place-items: center;
+      padding: 2rem 1rem;
+      font-family: var(--font); color: var(--page-ink);
+      background:
+        radial-gradient(60% 50% at 15% 10%, rgba(255, 255, 255, .6), transparent),
+        radial-gradient(50% 60% at 90% 90%, rgba(150, 200, 160, .35), transparent),
+        var(--page);
+    }
+    button { font: inherit; color: inherit; }
+    a { color: inherit; }
+    button:focus-visible, a:focus-visible { outline: 2px solid var(--primary, #2f6a3c); outline-offset: 2px; }
+
+    .stage { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: clamp(2rem, 7vw, 7rem); }
+
+    /* Left-hand intro (desktop only) */
+    .side { max-width: 25rem; }
+    .side .tag { font: 500 .72rem var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #4b6a50; }
+    .side h1 { margin: .6rem 0 0; font-size: clamp(2.4rem, 3.6vw, 3.3rem); line-height: 1; white-space: nowrap; font-weight: 700; letter-spacing: -.035em; }
+    .side h1 span { color: #2f6a3c; }
+    .side p { font-size: 1.15rem; line-height: 1.45; color: #3b4a3c; }
+    .side ul { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: .5rem; font-size: .95rem; color: #3b4a3c; }
+    .side kbd { font: 500 .72rem var(--mono); background: #fff; border: 1px solid #c1c9bd; border-bottom-width: 2px; border-radius: .35rem; padding: .1rem .4rem; }
+
+    /* The phone */
+    .phone {
+      position: relative;
+      width: min(372px, 92vw);
+      aspect-ratio: 9 / 19.5;
+      padding: 10px;
+      border-radius: 50px;
+      background: #121412;
+      box-shadow:
+        inset 0 0 0 2px #3b3f3b,
+        0 2px 0 1px #0a0b0a,
+        0 50px 80px -30px rgba(20, 40, 25, .55),
+        0 20px 30px -20px rgba(0, 0, 0, .35);
+    }
+    .power {
+      position: absolute; right: -5px; top: 21%;
+      width: 5px; height: 70px; padding: 0; border: 0; border-radius: 0 4px 4px 0;
+      background: #2b2e2b; cursor: pointer;
+    }
+    .power:hover { background: #3d413d; }
+    .vol { position: absolute; right: -5px; top: 36%; width: 5px; height: 110px; border-radius: 0 4px 4px 0; background: #2b2e2b; }
+    .scr {
+      position: relative; width: 100%; height: 100%;
+      border-radius: 40px; overflow: hidden; isolation: isolate;
+      background: var(--surface); color: var(--on);
+      user-select: none; -webkit-user-select: none;
+      transition: background-color .4s, color .4s;
+    }
+    .wall {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(55% 40% at 15% 18%, var(--w1), transparent 70%),
+        radial-gradient(50% 45% at 90% 35%, var(--w2), transparent 70%),
+        radial-gradient(60% 45% at 40% 95%, var(--w3), transparent 70%),
+        var(--w0);
+      transition: filter .5s;
+    }
+    .phone[data-state="lock"] .wall { filter: brightness(.92) saturate(1.1); }
+
+    /* Status bar */
+    .status {
+      position: absolute; top: 0; left: 0; right: 0; z-index: 40;
+      height: 38px; padding: 4px 24px 0;
+      display: flex; align-items: center; justify-content: space-between;
+      background: none; border: 0; cursor: pointer;
+      font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums;
+    }
+    .status .icons { display: flex; gap: 5px; align-items: center; }
+    .status svg { width: 15px; height: 15px; }
+    .cam { position: absolute; top: 13px; left: 50%; z-index: 41; width: 13px; height: 13px; margin-left: -6.5px; border-radius: 50%; background: #050605; box-shadow: inset 0 0 0 2px #1d201d; pointer-events: none; }
+
+    /* Lock screen */
+    .lock {
+      position: absolute; inset: 0; z-index: 20;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 78px 18px 36px;
+      transition: transform .5s cubic-bezier(.3, .8, .2, 1), opacity .5s;
+      touch-action: none; cursor: grab;
+    }
+    .phone:not([data-state="lock"]) .lock { transform: translateY(-104%); opacity: 0; pointer-events: none; }
+    .lclock { font-size: 112px; line-height: .84; font-weight: 500; letter-spacing: -.02em; text-align: center; color: var(--primary); font-variant-numeric: tabular-nums; }
+    .lclock span { display: block; }
+    .lclock span + span { color: var(--on); opacity: .85; }
+    .ldate { margin-top: 14px; font-size: 15px; font-weight: 500; }
+    .notif {
+      width: 100%; margin-top: auto;
+      padding: 14px 16px; border-radius: 24px;
+      background: var(--glass); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+      text-align: left;
+    }
+    .notif .app-row { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--on-var); }
+    .notif .app-row i { width: 18px; height: 18px; border-radius: 50%; background: var(--primary); color: var(--on-primary); display: grid; place-items: center; font-style: normal; font-size: 11px; }
+    .notif b { display: block; margin-top: 6px; font-size: 15px; }
+    .notif p { margin: 2px 0 0; font-size: 14px; line-height: 1.35; color: var(--on-var); }
+    .fp {
+      margin-top: 26px; width: 60px; height: 60px; border-radius: 50%;
+      display: grid; place-items: center; cursor: pointer;
+      background: var(--glass); border: 0; color: var(--primary);
+      animation: breathe 2.4s ease-in-out infinite;
+    }
+    .fp svg { width: 30px; height: 30px; }
+    @keyframes breathe { 50% { transform: scale(1.07); box-shadow: 0 0 0 10px rgba(47, 106, 60, .12); } }
+    .swipe { margin-top: 12px; font-size: 13px; color: var(--on-var); }
+
+    /* Home screen */
+    .home {
+      position: absolute; inset: 0; z-index: 10;
+      display: flex; flex-direction: column; gap: 16px;
+      padding: 58px 18px 34px;
+      opacity: 0; transform: scale(1.08); pointer-events: none;
+      transition: opacity .45s .08s, transform .55s .08s cubic-bezier(.2, .8, .2, 1);
+    }
+    .phone:not([data-state="lock"]) .home { opacity: 1; transform: none; pointer-events: auto; }
+    .glance { padding: 4px 6px 0; }
+    .glance b { display: block; font-size: 24px; font-weight: 500; letter-spacing: -.01em; }
+    .glance span { font-size: 13px; color: var(--on-var); }
+
+    .widget {
+      display: block; width: 100%; text-align: left; cursor: pointer; border: 0;
+      padding: 18px; border-radius: 28px;
+      background: var(--pc); color: var(--on-pc);
+      transition: transform .2s;
+    }
+    .widget:active { transform: scale(.97); }
+    .widget small { font: 500 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; opacity: .75; }
+    .widget strong { display: block; margin: 4px 0 12px; font-size: 27px; line-height: 1; font-weight: 700; letter-spacing: -.02em; }
+    .widget .row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .chip-s { font-size: 12px; padding: 4px 10px; border-radius: 99px; background: rgba(255, 255, 255, .45); }
+    .phone.dark .chip-s { background: rgba(255, 255, 255, .1); }
+    .widget .go { margin-left: auto; width: 36px; height: 36px; border-radius: 50%; background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
+    .widget .go svg { width: 18px; height: 18px; }
+    .widget.now { background: var(--tc); color: var(--on-tc); padding: 14px 18px; border-radius: 24px; }
+    .widget.now strong { font-size: 16px; margin: 3px 0 0; font-weight: 500; letter-spacing: 0; line-height: 1.3; }
+
+    .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px 6px; margin-top: auto; }
+    .ic { display: grid; justify-items: center; gap: 6px; background: none; border: 0; cursor: pointer; padding: 0; text-decoration: none; }
+    .ic .b {
+      width: 56px; height: 56px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: var(--pc); color: var(--on-pc);
+      transition: transform .2s cubic-bezier(.2, .9, .3, 1.4), border-radius .3s;
+    }
+    .ic:nth-child(3n+2) .b { background: var(--tc); color: var(--on-tc); }
+    .ic:nth-child(3n) .b { background: var(--sc); color: var(--on-sc); }
+    .ic:hover .b { transform: scale(1.08); border-radius: 18px; }
+    .ic:active .b { transform: scale(.92); }
+    .ic svg { width: 24px; height: 24px; }
+    .ic span { font-size: 12px; font-weight: 500; }
+    .search {
+      display: flex; align-items: center; gap: 10px;
+      width: 100%; padding: 12px 18px; border-radius: 99px; border: 0; cursor: pointer;
+      background: var(--glass); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+      font-size: 14px; color: var(--on-var); text-align: left;
+    }
+    .search i { font-style: normal; color: var(--primary); font-size: 18px; }
+
+    /* App window */
+    .app {
+      position: absolute; inset: 0; z-index: 25;
+      display: flex; flex-direction: column;
+      background: var(--surface);
+      padding-top: 40px;
+      transform-origin: var(--ox, 50%) var(--oy, 50%);
+    }
+    .app.opening { animation: open .38s cubic-bezier(.2, .85, .25, 1); }
+    .app.closing { animation: open .26s cubic-bezier(.6, 0, .8, .4) reverse forwards; }
+    @keyframes open { from { transform: scale(.12); opacity: 0; border-radius: 40px; } }
+    .appbar { display: flex; align-items: center; gap: 8px; padding: 6px 10px 10px; }
+    .back { width: 44px; height: 44px; border-radius: 50%; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
+    .back:hover { background: var(--surface-2); }
+    .back svg { width: 24px; height: 24px; }
+    .appbar h2 { margin: 0; font-size: 22px; font-weight: 500; }
+    .appbody { flex: 1; overflow-y: auto; padding: 4px 18px 46px; user-select: text; -webkit-user-select: text; }
+    .card { background: var(--surface-2); border-radius: 22px; padding: 16px; margin-bottom: 12px; }
+    .card h3 { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
+    .card p { margin: 0; font-size: 14.5px; line-height: 1.45; color: var(--on-var); }
+    .card p + p { margin-top: 8px; }
+    .hero-av { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .av { width: 72px; height: 72px; border-radius: 50%; background: var(--primary); color: var(--on-primary); display: grid; place-items: center; font-size: 26px; font-weight: 700; flex: none; }
+    .hero-av b { display: block; font-size: 22px; line-height: 1.1; }
+    .hero-av span { font-size: 14px; color: var(--on-var); }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip { font-size: 13px; padding: 6px 12px; border-radius: 9px; border: 1px solid var(--outline); }
+    .chip.on { background: var(--sc); border-color: transparent; color: var(--on-sc); }
+    .label { font: 500 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--on-var); margin: 16px 0 8px; }
+    .proj { display: grid; grid-template-columns: 50px 1fr; gap: 12px; }
+    .proj .pi { width: 50px; height: 50px; border-radius: 15px; display: grid; place-items: center; font-weight: 700; font-size: 20px; }
+    .proj .meta { font-size: 12px; color: var(--on-var); margin-top: 2px; }
+    .btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 99px; border: 0; cursor: pointer; font-size: 14px; font-weight: 500; text-decoration: none; background: var(--sc); color: var(--on-sc); }
+    .btn.fill { background: var(--primary); color: var(--on-primary); }
+    .btn:hover { filter: brightness(1.05); }
+    /* Experience timeline */
+    .tl { position: relative; padding-left: 22px; }
+    .tl::before { content: ""; position: absolute; left: 6px; top: 22px; bottom: 22px; width: 2px; background: var(--outline); }
+    .job { position: relative; }
+    .job::before { content: ""; position: absolute; left: -22px; top: 20px; width: 10px; height: 10px; border-radius: 50%; background: var(--surface); border: 2.5px solid var(--primary); }
+    .job.now::before { background: var(--primary); box-shadow: 0 0 0 4px var(--pc); }
+    .job .when { font: 500 11.5px var(--mono); color: var(--on-var); margin-bottom: 4px; }
+    .job h3 { margin-bottom: 0; }
+    .job .co { font-size: 13.5px; color: var(--primary); font-weight: 500; }
+    .job ul { margin: 8px 0 10px; padding-left: 18px; font-size: 14px; line-height: 1.45; color: var(--on-var); }
+    .job ul li + li { margin-top: 3px; }
+    .big-mail { display: block; font-size: 21px; font-weight: 600; letter-spacing: -.01em; overflow-wrap: anywhere; margin: 4px 0; text-decoration: none; }
+
+    /* Notification shade */
+    .shade {
+      position: absolute; inset: 0; z-index: 30;
+      padding: 46px 16px 30px;
+      display: flex; flex-direction: column; gap: 12px;
+      background: var(--glass); -webkit-backdrop-filter: blur(22px) saturate(1.2); backdrop-filter: blur(22px) saturate(1.2);
+      transform: translateY(-100%);
+      transition: transform .45s cubic-bezier(.3, .8, .2, 1);
+      overflow-y: auto;
+    }
+    .shade.open { transform: none; }
+    .shade-top { display: flex; align-items: baseline; justify-content: space-between; padding: 0 6px; }
+    .shade-top b { font-size: 34px; font-weight: 400; font-variant-numeric: tabular-nums; }
+    .shade-top span { font-size: 13px; color: var(--on-var); }
+    .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .tile {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px; border-radius: 22px; border: 0; cursor: pointer; text-align: left;
+      background: var(--surface-2); color: var(--on);
+      transition: background-color .25s, color .25s, border-radius .3s;
+    }
+    .tile.on { background: var(--pc); color: var(--on-pc); border-radius: 30px; }
+    .tile svg { width: 22px; height: 22px; flex: none; }
+    .tile b { display: block; font-size: 13px; font-weight: 600; }
+    .tile small { display: block; font-size: 12px; opacity: .75; }
+    .n { background: var(--surface); border-radius: 22px; padding: 12px 16px; }
+    .n .h { font-size: 12px; color: var(--on-var); display: flex; gap: 6px; align-items: center; }
+    .n .h i { width: 16px; height: 16px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-size: 10px; background: var(--primary); color: var(--on-primary); }
+    .n b { display: block; font-size: 14px; margin-top: 4px; }
+    .n p { margin: 1px 0 0; font-size: 14px; color: var(--on-var); }
+    .shade-label { font-size: 13px; font-weight: 600; padding: 4px 6px 0; }
+    .handle { margin: auto auto 0; width: 44px; height: 5px; border-radius: 5px; background: var(--on-var); opacity: .5; border: 0; padding: 0; cursor: pointer; }
+
+    /* Gesture bar */
+    .gesture {
+      position: absolute; left: 50%; bottom: 6px; z-index: 45;
+      width: 150px; height: 22px; margin-left: -75px; padding: 0;
+      background: none; border: 0; cursor: pointer;
+    }
+    .gesture::before { content: ""; position: absolute; left: 15px; right: 15px; top: 9px; height: 5px; border-radius: 5px; background: var(--on); opacity: .55; }
+
+    .toast {
+      position: absolute; left: 50%; bottom: 52px; z-index: 50;
+      transform: translate(-50%, 20px); opacity: 0;
+      padding: 10px 18px; border-radius: 12px;
+      background: #2e322e; color: #eef2ea; font-size: 13.5px; white-space: nowrap;
+      transition: opacity .25s, transform .25s; pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    /* Phones: the website simply *is* the phone UI */
+    @media (max-width: 560px) {
+      body { padding: 0; display: block; }
+      .stage { display: block; }
+      .side { display: none; }
+      .phone { width: 100%; height: 100svh; aspect-ratio: auto; padding: 0; border-radius: 0; box-shadow: none; background: none; }
+      .scr { border-radius: 0; }
+      .power, .vol, .cam { display: none; }
+      .status { padding-top: env(safe-area-inset-top, 0px); height: calc(38px + env(safe-area-inset-top, 0px)); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
 </head>
 <body>
+  <!-- Icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-person" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></symbol>
+      <symbol id="i-apps" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="3.5"/><rect x="3" y="14" width="7" height="7" rx="3.5"/><rect x="14" y="14" width="7" height="7" rx="2"/></symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+      <symbol id="i-tune" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h9M19 6h1M4 12h3M13 12h7M4 18h11M21 18h-1"/><circle cx="16" cy="6" r="2.2"/><circle cx="10" cy="12" r="2.2"/><circle cx="18" cy="18" r="2.2"/></symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></symbol>
+      <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></symbol>
+      <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="3"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7M3 13h18"/></symbol>
+      <symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.6-1.3 1.7-2 3-2s2.4.7 3 2M15 10h3M15 13h3"/></symbol>
+      <symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+      <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H5m6-7-7 7 7 7"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+      <symbol id="i-finger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6.2 5.3A9 9 0 0 1 17.8 5.3M4 10a8.5 8.5 0 0 1 16 0M7 20.5c.9-1.6 1.4-3.6 1.4-5.6v-1.4a3.6 3.6 0 0 1 7.2 0v1.1M12 13.5v1.6c0 2.5-.7 4.8-2 6.7M15.6 18c-.2 1.1-.6 2.1-1.1 3.1M17.5 12.8c.1.6.1 1.2.1 1.8"/></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z"/></symbol>
+      <symbol id="i-cup" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h12v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM16 10h1.5a2.5 2.5 0 0 1 0 5H16M8 3.5v2.5M12 3.5v2.5"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></symbol>
+      <symbol id="i-wifi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2.5 9a14 14 0 0 1 19 0M5.8 12.6a9 9 0 0 1 12.4 0M9.2 16.1a4 4 0 0 1 5.6 0"/><circle cx="12" cy="19.5" r="1.3" fill="currentColor" stroke="none"/></symbol>
+      <symbol id="i-signal" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3v18H3z"/></symbol>
+      <symbol id="i-batt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="18" height="10" rx="2.5"/><rect x="4.5" y="9.5" width="10" height="5" rx="1" fill="currentColor" stroke="none"/><path d="M22.5 10.5v3" stroke-linecap="round"/></symbol>
+    </defs>
+  </svg>
 
-  <!-- NAV -->
-  <nav class="nav">
-    <a href="#" class="nav-logo">wz</a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <button class="nav-toggle" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
+  <div class="stage">
+    <aside class="side">
+      <h1>Lim Wei Zuen</h1>
+      <p>Android developer. I build apps people keep on their home screen, so naturally my website is one.</p>
+      <ul>
+        <li>👆 Swipe up on the lock screen, or tap the fingerprint</li>
+        <li>⬇ Tap the status bar for what I'm up to now</li>
+        <li>⏻ Power button on the side locks it again</li>
+        <li><kbd>↑</kbd> unlock · <kbd>↓</kbd> notifications · <kbd>Esc</kbd> back</li>
+      </ul>
+    </aside>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-content">
-      <p class="hero-greeting">Hi, I'm</p>
-      <h1 class="hero-name">Wei Zuen</h1>
-      <p class="hero-tagline"><!-- e.g. Software Engineer · Designer · Builder --></p>
-      <div class="hero-cta">
-        <a href="#projects" class="btn btn-primary">See my work</a>
-        <a href="#contact" class="btn btn-ghost">Get in touch</a>
+    <div class="phone" id="phone" data-state="lock">
+      <button class="power" id="power" type="button" aria-label="Lock phone"></button>
+      <span class="vol" aria-hidden="true"></span>
+      <div class="scr" id="scr">
+        <div class="wall" aria-hidden="true"></div>
+        <span class="cam" aria-hidden="true"></span>
+
+        <button class="status" id="status" type="button" aria-label="Open notifications">
+          <span id="sbTime">--:--</span>
+          <span class="icons" aria-hidden="true"><svg><use href="#i-wifi"/></svg><svg><use href="#i-signal"/></svg><svg style="width:20px"><use href="#i-batt"/></svg></span>
+        </button>
+
+        <!-- Lock screen -->
+        <section class="lock" id="lock" aria-label="Lock screen">
+          <div class="lclock" aria-hidden="true"><span id="lockH">--</span><span id="lockM">--</span></div>
+          <div class="ldate" id="lockDate"></div>
+          <div class="notif">
+            <div class="app-row"><i>✳</i>Wei Zuen · now</div>
+            <b>Hey, thanks for stopping by 👋</b>
+            <p>I'm Wei Zuen, an Android developer. Swipe up to look around my phone.</p>
+          </div>
+          <button class="fp" type="button" data-action="unlock" aria-label="Unlock"><svg><use href="#i-finger"/></svg></button>
+          <div class="swipe">Swipe up to open</div>
+        </section>
+
+        <!-- Home screen -->
+        <section class="home" id="home" aria-label="Home screen">
+          <div class="glance"><b id="glanceDate">—</b><span id="glanceWhere">Kuala Lumpur, Malaysia</span></div>
+
+          <button class="widget" type="button" data-app="about">
+            <small>Software Engineer · LintraMax</small>
+            <strong>Lim Wei Zuen</strong>
+            <span class="row"><span class="chip-s">Kotlin</span><span class="chip-s">Compose</span><span class="chip-s">.NET</span><span class="go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></span>
+          </button>
+          <button class="widget now" type="button" data-action="shade">
+            <small>Now · Software Engineer at LintraMax</small>
+            <strong>Leading a Java → Kotlin migration of a production Android app</strong>
+          </button>
+
+          <nav class="grid" aria-label="Apps">
+            <button class="ic" type="button" data-app="about"><span class="b"><svg><use href="#i-person"/></svg></span><span>About</span></button>
+            <button class="ic" type="button" data-app="experience"><span class="b"><svg><use href="#i-bag"/></svg></span><span>Experience</span></button>
+            <button class="ic" type="button" data-app="projects"><span class="b"><svg><use href="#i-apps"/></svg></span><span>Projects</span></button>
+            <button class="ic" type="button" data-app="toolbox"><span class="b"><svg><use href="#i-tune"/></svg></span><span>Toolbox</span></button>
+            <button class="ic" type="button" data-app="contact"><span class="b"><svg><use href="#i-mail"/></svg></span><span>Contact</span></button>
+            <a class="ic" href="https://github.com/weizuen123" target="_blank" rel="me noopener"><span class="b"><svg><use href="#i-code"/></svg></span><span>GitHub</span></a>
+            <a class="ic" href="https://www.linkedin.com/in/limweizuen" target="_blank" rel="me noopener"><span class="b"><svg><use href="#i-card"/></svg></span><span>LinkedIn</span></a>
+            <button class="ic" type="button" data-action="shade"><span class="b"><svg><use href="#i-bolt"/></svg></span><span>Now</span></button>
+          </nav>
+
+          <button class="search" type="button" data-app="contact"><i>✳</i>Say hi to Wei Zuen…</button>
+        </section>
+
+        <!-- App window (content comes from the templates below) -->
+        <section class="app" id="app" hidden aria-labelledby="appTitle">
+          <header class="appbar">
+            <button class="back" type="button" data-action="back" aria-label="Back"><svg><use href="#i-back"/></svg></button>
+            <h2 id="appTitle">App</h2>
+          </header>
+          <div class="appbody" id="appBody"></div>
+        </section>
+
+        <!-- Notification shade -->
+        <section class="shade" id="shade" aria-label="Notifications">
+          <div class="shade-top"><b id="shadeTime">--:--</b><span id="shadeDate"></span></div>
+          <div class="tiles">
+            <button class="tile" type="button" data-tile="dark"><svg><use href="#i-moon"/></svg><span><b>Dark theme</b><small>Off</small></span></button>
+            <button class="tile on" type="button" data-tile="work"><svg><use href="#i-bag"/></svg><span><b>Opportunities</b><small>Open to interesting ones</small></span></button>
+            <button class="tile" type="button" data-tile="coffee"><svg><use href="#i-cup"/></svg><span><b>Coffee</b><small>2 cups today</small></span></button>
+            <button class="tile" type="button" data-tile="loc"><svg><use href="#i-pin"/></svg><span><b>Location</b><small>Kuala Lumpur</small></span></button>
+          </div>
+          <div class="shade-label">Now · Software Engineer at LintraMax</div>
+          <div class="n"><div class="h"><i>✳</i>LintraMax · Jul 2024 – Present</div><b>Leading a Java → Kotlin migration</b><p>Of a large production Android codebase, with Hilt running on KSP so DI works in both Java and Kotlin during the transition.</p></div>
+          <div class="n"><div class="h"><i>✳</i>LintraMax · UI</div><b>Building screens in Jetpack Compose</b><p>Material 3, with interop with the existing XML Views and LiveData.</p></div>
+          <div class="n"><div class="h"><i>✳</i>LintraMax · Maps</div><b>Offline maps with MapLibre</b><p>Offline tile downloading and caching, map-based selection, a scale bar, and fallbacks for unsupported devices.</p></div>
+          <div class="n"><div class="h"><i>✳</i>LintraMax · On-site</div><b>Rolling out to client sites</b><p>Travelling across Malaysia and Indonesia, working directly with end users to turn their feedback into improvements.</p></div>
+          <button class="btn fill" type="button" data-app="experience" style="align-self:center">See full experience</button>
+          <button class="handle" type="button" data-action="back" aria-label="Close notifications"></button>
+        </section>
+
+        <button class="gesture" id="gesture" type="button" data-action="back" aria-label="Home"></button>
+        <div class="toast" id="toast" role="status"></div>
       </div>
     </div>
-    <div class="hero-decoration" aria-hidden="true">
-      <div class="blob"></div>
-    </div>
-  </section>
+  </div>
 
-  <!-- ABOUT -->
-  <section id="about" class="section">
-    <div class="container">
-      <h2 class="section-title">About Me</h2>
-      <div class="about-grid">
-        <div class="about-text">
-          <p>
-            <!-- Introduce yourself here. What do you do? What are you passionate about?
-                 Example: I'm a software engineer based in Malaysia, passionate about
-                 building products that make people's lives easier. -->
-            Write something about yourself here. What do you do, what are you
-            interested in, and what drives you?
-          </p>
-          <p>
-            When I'm not coding, you can find me
-            <!-- your hobbies, e.g. hiking, reading, gaming -->.
-          </p>
-        </div>
-        <div class="about-skills">
-          <h3>Things I work with</h3>
-          <ul class="skills-list">
-            <!-- Edit these to match your actual skills -->
-            <li>JavaScript / TypeScript</li>
-            <li>Python</li>
-            <li>React</li>
-            <li>Node.js</li>
-            <li>SQL</li>
-            <li>Git</li>
-          </ul>
-        </div>
+  <!-- ───────── App contents ───────── -->
+  <template id="app-about" data-title="About">
+    <div class="hero-av">
+      <div class="av">WZ</div>
+      <div><b>Lim Wei Zuen</b><span>Android developer · Greater Kuala Lumpur</span></div>
+    </div>
+    <div class="card">
+      <h3>Hi there 👋</h3>
+      <p>I'm Wei Zuen, a mobile developer helping revolutionize agriculture through technology.</p>
+      <p>Currently working as a Software Engineer at LintraMax, I specialize in Android development with Kotlin, maintain Java, and do web development with JavaScript and .NET. I build complete solutions that bridge mobile, web and backend systems to tackle real-world agriculture challenges.</p>
+    </div>
+    <div class="card">
+      <h3>What I build</h3>
+      <div class="chips"><span class="chip on">Android apps</span><span class="chip on">Agriculture tech</span><span class="chip">Offline-first apps</span><span class="chip">Web &amp; backend</span></div>
+    </div>
+    <div class="btns"><button class="btn fill" type="button" data-app="experience">My experience</button><button class="btn" type="button" data-app="projects">Projects</button><button class="btn" type="button" data-app="contact">Contact</button></div>
+  </template>
+
+  <template id="app-experience" data-title="Experience">
+    <div class="tl">
+      <div class="card job now">
+        <div class="when">Jul 2024 – Present · Full-time</div>
+        <h3>Software Engineer</h3>
+        <div class="co">LintraMax · Penang, Malaysia · On-site</div>
+        <ul>
+          <li>Leading the migration of a large production Android codebase from Java to Kotlin. Moved dependency injection to Hilt running on KSP so it works in both Java and Kotlin code during the transition.</li>
+          <li>Built new screens in Jetpack Compose (Material 3), including interop with the existing XML Views and LiveData.</li>
+          <li>Set up Robolectric so Compose UI tests run locally on the JVM, and wrote on-device UI test suites with Espresso and Compose UI Test.</li>
+          <li>Built offline map features with the open-source MapLibre SDK: offline tile downloading and caching, map-based selection, a scale bar, and fallback handling on devices that don't support it.</li>
+          <li>Built direct-to-cloud image upload to Azure Blob Storage using SAS tokens, Retrofit and OkHttp.</li>
+          <li>Wrote Room database schema migrations and DAOs for an offline-first architecture with data sync, keeping database work off the main thread with Executors.</li>
+          <li>Built features on MVVM with ViewModel, LiveData and the Repository pattern.</li>
+          <li>Travelled to client sites in Malaysia and Indonesia to support on-site rollout of the app, working directly with end users to troubleshoot issues and turn their feedback into improvements.</li>
+        </ul>
+        <div class="chips"><span class="chip">Kotlin</span><span class="chip">Java</span><span class="chip">Jetpack Compose</span><span class="chip">Hilt</span><span class="chip">Room</span><span class="chip">MapLibre</span><span class="chip">ASP.NET</span><span class="chip">C#</span></div>
+      </div>
+      <div class="card job">
+        <div class="when">Jul 2023 – Oct 2023 · Internship</div>
+        <h3>Software Engineer Intern</h3>
+        <div class="co">LintraMax · Bayan Lepas, Penang · On-site</div>
+        <ul>
+          <li>Integrated the Google Maps API into an Android application using Java.</li>
+        </ul>
+        <div class="chips"><span class="chip">Java</span><span class="chip">Google Maps API</span><span class="chip">AngularJS</span><span class="chip">C#</span></div>
       </div>
     </div>
-  </section>
+    <div class="label">Education</div>
+    <div class="card">
+      <h3>Information Technology</h3>
+      <p>Multimedia University · Melaka, Malaysia<br>May 2022 – May 2024</p>
+      <div class="chips" style="margin-top:8px"><span class="chip">C</span><span class="chip">Java</span></div>
+    </div>
+    <div class="btns" style="justify-content:center"><a class="btn" href="https://www.linkedin.com/in/limweizuen" target="_blank" rel="noopener">Full profile on LinkedIn ↗</a></div>
+  </template>
 
-  <!-- PROJECTS -->
-  <section id="projects" class="section section-alt">
-    <div class="container">
-      <h2 class="section-title">Projects</h2>
-      <div class="projects-grid">
-
-        <!-- PROJECT CARD — duplicate and edit these -->
-        <article class="card">
-          <div class="card-header">
-            <span class="card-icon">&#9632;</span>
-            <div class="card-links">
-              <a href="#" aria-label="GitHub">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-              </a>
-              <a href="#" aria-label="Live demo">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              </a>
-            </div>
-          </div>
-          <h3 class="card-title">Project Name</h3>
-          <p class="card-desc">A short description of what this project does and what problem it solves. Keep it to 2–3 sentences.</p>
-          <div class="card-tags">
-            <span class="tag">React</span>
-            <span class="tag">Node.js</span>
-            <span class="tag">PostgreSQL</span>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-header">
-            <span class="card-icon">&#9632;</span>
-            <div class="card-links">
-              <a href="#" aria-label="GitHub">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-              </a>
-              <a href="#" aria-label="Live demo">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              </a>
-            </div>
-          </div>
-          <h3 class="card-title">Project Name</h3>
-          <p class="card-desc">A short description of what this project does and what problem it solves. Keep it to 2–3 sentences.</p>
-          <div class="card-tags">
-            <span class="tag">Python</span>
-            <span class="tag">FastAPI</span>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-header">
-            <span class="card-icon">&#9632;</span>
-            <div class="card-links">
-              <a href="#" aria-label="GitHub">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-              </a>
-              <a href="#" aria-label="Live demo">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              </a>
-            </div>
-          </div>
-          <h3 class="card-title">Project Name</h3>
-          <p class="card-desc">A short description of what this project does and what problem it solves. Keep it to 2–3 sentences.</p>
-          <div class="card-tags">
-            <span class="tag">TypeScript</span>
-            <span class="tag">Next.js</span>
-          </div>
-        </article>
-
+  <template id="app-projects" data-title="Projects">
+    <div class="card proj">
+      <div class="pi" style="background:var(--pc);color:var(--on-pc)">T</div>
+      <div>
+        <h3>TodoApp-Kotlin</h3>
+        <p>A to-do app for Android, written in Kotlin with Jetpack Compose.</p>
+        <div class="meta">2026 · Android · In progress</div>
+        <div class="chips" style="margin-top:8px"><span class="chip">Kotlin</span><span class="chip">Jetpack Compose</span></div>
+        <div class="btns"><a class="btn fill" href="https://github.com/weizuen123/TodoApp-Kotlin" target="_blank" rel="noopener">Source ↗</a></div>
       </div>
     </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" class="section">
-    <div class="container contact-container">
-      <h2 class="section-title">Get In Touch</h2>
-      <p class="contact-desc">
-        Whether you have a question, a project idea, or just want to say hi —
-        my inbox is open.
-      </p>
-      <a href="mailto:hello@weizuen.my" class="btn btn-primary">Say Hello</a>
-      <div class="social-links">
-        <!-- Add / remove links as needed -->
-        <a href="https://github.com/" target="_blank" rel="noopener" aria-label="GitHub">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-        </a>
-        <a href="https://linkedin.com/in/" target="_blank" rel="noopener" aria-label="LinkedIn">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        </a>
-        <a href="https://twitter.com/" target="_blank" rel="noopener" aria-label="Twitter / X">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </a>
+    <div class="card proj">
+      <div class="pi" style="background:var(--tc);color:var(--on-tc)">D</div>
+      <div>
+        <h3>DevLog</h3>
+        <p>A web app where developers note down their daily tasks, so year-end reviews are easy to write.</p>
+        <div class="meta">2026 · Web · Live</div>
+        <div class="chips" style="margin-top:8px"><span class="chip">TypeScript</span><span class="chip">Vercel</span></div>
+        <div class="btns"><a class="btn fill" href="https://devlog-flame.vercel.app" target="_blank" rel="noopener">Open app ↗</a><a class="btn" href="https://github.com/weizuen123/devlog" target="_blank" rel="noopener">Source ↗</a></div>
       </div>
     </div>
-  </section>
+    <div class="card proj">
+      <div class="pi" style="background:var(--sc);color:var(--on-sc)">C</div>
+      <div>
+        <h3>Color Picker App</h3>
+        <p>A simple colour picker app built with React.</p>
+        <div class="meta">2024 · Web</div>
+        <div class="chips" style="margin-top:8px"><span class="chip">React</span><span class="chip">JavaScript</span></div>
+        <div class="btns"><a class="btn" href="https://github.com/weizuen123/Color-Picker-App-with-React" target="_blank" rel="noopener">Source ↗</a></div>
+      </div>
+    </div>
+    <div class="btns" style="justify-content:center"><a class="btn" href="https://github.com/weizuen123?tab=repositories" target="_blank" rel="noopener">More on GitHub ↗</a></div>
+  </template>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <p>Designed &amp; built by Wei Zuen &mdash; <a href="https://weizuen.my">weizuen.my</a></p>
-  </footer>
+  <template id="app-toolbox" data-title="Toolbox">
+    <div class="label">Languages</div>
+    <div class="chips"><span class="chip on">Kotlin</span><span class="chip on">Java</span><span class="chip">C#</span><span class="chip">JavaScript</span><span class="chip">TypeScript</span><span class="chip">C</span></div>
+    <div class="label">Android UI</div>
+    <div class="chips"><span class="chip on">Jetpack Compose</span><span class="chip">Material 3</span><span class="chip">XML Views</span><span class="chip">LiveData</span></div>
+    <div class="label">Architecture &amp; data</div>
+    <div class="chips"><span class="chip on">MVVM</span><span class="chip">ViewModel</span><span class="chip">Repository pattern</span><span class="chip">Hilt (KSP)</span><span class="chip">Room</span><span class="chip">Offline-first &amp; sync</span></div>
+    <div class="label">Networking &amp; maps</div>
+    <div class="chips"><span class="chip">Retrofit</span><span class="chip">OkHttp</span><span class="chip">MapLibre SDK</span><span class="chip">Google Maps API</span></div>
+    <div class="label">Testing</div>
+    <div class="chips"><span class="chip">Robolectric</span><span class="chip">Espresso</span><span class="chip">Compose UI Test</span></div>
+    <div class="label">Web, backend &amp; cloud</div>
+    <div class="chips"><span class="chip on">.NET</span><span class="chip">ASP.NET</span><span class="chip">AngularJS</span><span class="chip">React</span><span class="chip">Azure Blob Storage</span></div>
+    <div class="label">Tools</div>
+    <div class="chips"><span class="chip">Android Studio</span><span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">Vercel</span></div>
+  </template>
 
-  <script src="script.js"></script>
+  <template id="app-contact" data-title="Contact">
+    <div class="card">
+      <h3>Say hello</h3>
+      <p>Feel free to connect or contact me for interesting opportunities.</p>
+      <a class="big-mail" href="mailto:weizuen@gmail.com">weizuen@gmail.com</a>
+      <div class="btns"><a class="btn fill" href="mailto:weizuen@gmail.com">Send email</a><button class="btn" type="button" data-copy="weizuen@gmail.com">Copy address</button></div>
+    </div>
+    <div class="card">
+      <h3>Elsewhere</h3>
+      <div class="btns" style="margin-top:4px"><a class="btn" href="https://github.com/weizuen123" target="_blank" rel="me noopener">GitHub ↗</a><a class="btn" href="https://www.linkedin.com/in/limweizuen" target="_blank" rel="me noopener">LinkedIn ↗</a></div>
+    </div>
+  </template>
+
+  <script>
+    const TIMEZONE = "Asia/Kuala_Lumpur"; // Malaysia time
+
+    const phone = document.getElementById("phone");
+    const scr = document.getElementById("scr");
+    const lock = document.getElementById("lock");
+    const app = document.getElementById("app");
+    const appBody = document.getElementById("appBody");
+    const appTitle = document.getElementById("appTitle");
+    const shade = document.getElementById("shade");
+    const toastEl = document.getElementById("toast");
+    const state = () => phone.dataset.state;
+
+    function toast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add("show");
+      clearTimeout(toast.t);
+      toast.t = setTimeout(() => toastEl.classList.remove("show"), 1800);
+    }
+
+    function unlock() { if (state() === "lock") phone.dataset.state = "home"; }
+    function relock() { closeShade(); closeApp(true); phone.dataset.state = "lock"; }
+
+    function openApp(id, from) {
+      const tpl = document.getElementById("app-" + id);
+      if (!tpl) return;
+      const s = scr.getBoundingClientRect();
+      const r = from ? from.getBoundingClientRect() : null;
+      app.style.setProperty("--ox", r ? (r.left + r.width / 2 - s.left) + "px" : "50%");
+      app.style.setProperty("--oy", r ? (r.top + r.height / 2 - s.top) + "px" : "50%");
+      appTitle.textContent = tpl.dataset.title;
+      appBody.replaceChildren(tpl.content.cloneNode(true));
+      appBody.scrollTop = 0;
+      closeShade();
+      app.hidden = false;
+      app.classList.remove("closing", "opening"); void app.offsetWidth; app.classList.add("opening");
+      phone.dataset.state = "app";
+    }
+    function closeApp(instant) {
+      if (app.hidden) return;
+      phone.dataset.state = "home";
+      if (instant) { app.hidden = true; return; }
+      app.classList.remove("opening"); app.classList.add("closing");
+      setTimeout(() => { app.hidden = true; app.classList.remove("closing"); }, 250);
+    }
+    const openShade = () => { if (state() !== "lock") shade.classList.add("open"); };
+    const closeShade = () => shade.classList.remove("open");
+    function back() {
+      if (state() === "lock") return unlock();
+      if (shade.classList.contains("open")) return closeShade();
+      closeApp();
+    }
+
+    scr.addEventListener("click", async (e) => {
+      const a = e.target.closest("[data-app]");
+      if (a) return openApp(a.dataset.app, a);
+      const act = e.target.closest("[data-action]");
+      if (act) {
+        const v = act.dataset.action;
+        if (v === "unlock") unlock();
+        if (v === "back") back();
+        if (v === "shade") openShade();
+        return;
+      }
+      const t = e.target.closest("[data-tile]");
+      if (t) return tile(t);
+      const c = e.target.closest("[data-copy]");
+      if (c) {
+        try { await navigator.clipboard.writeText(c.dataset.copy); toast("Email copied to clipboard"); }
+        catch (err) { toast(c.dataset.copy); }
+      }
+    });
+    document.getElementById("status").addEventListener("click", () => {
+      shade.classList.contains("open") ? closeShade() : openShade();
+    });
+    document.getElementById("power").addEventListener("click", () => {
+      state() === "lock" ? unlock() : relock();
+    });
+
+    let cups = 2;
+    function tile(t) {
+      const small = t.querySelector("small");
+      switch (t.dataset.tile) {
+        case "dark": {
+          const on = phone.classList.toggle("dark");
+          t.classList.toggle("on", on);
+          small.textContent = on ? "On" : "Off";
+          break;
+        }
+        case "work": {
+          const on = t.classList.toggle("on");
+          small.textContent = on ? "Open to interesting ones" : "Not right now";
+          break;
+        }
+        case "coffee":
+          cups++;
+          small.textContent = cups + " cups today";
+          t.classList.add("on");
+          toast(cups > 4 ? "Okay, that's probably enough ☕" : "Brewing… ☕");
+          break;
+        case "loc":
+          toast("📍 Greater Kuala Lumpur, Malaysia");
+          break;
+      }
+    }
+
+    // Swipe up to unlock
+    let drag = null;
+    lock.addEventListener("pointerdown", (e) => {
+      if (state() !== "lock" || e.target.closest("button")) return;
+      drag = { y: e.clientY };
+      lock.setPointerCapture(e.pointerId);
+      lock.style.transition = "none";
+    });
+    lock.addEventListener("pointermove", (e) => {
+      if (!drag) return;
+      const dy = Math.min(0, e.clientY - drag.y);
+      lock.style.transform = `translateY(${dy}px)`;
+      lock.style.opacity = String(1 + dy / 420);
+    });
+    const endDrag = (e) => {
+      if (!drag) return;
+      const dy = e.clientY - drag.y;
+      drag = null;
+      lock.style.transition = lock.style.transform = lock.style.opacity = "";
+      if (dy < -70) unlock();
+    };
+    lock.addEventListener("pointerup", endDrag);
+    lock.addEventListener("pointercancel", endDrag);
+
+    addEventListener("keydown", (e) => {
+      if (state() === "lock" && ["ArrowUp", " ", "Enter"].includes(e.key) && !e.target.closest("button, a")) { e.preventDefault(); unlock(); }
+      else if (e.key === "Escape") back();
+      else if (e.key === "ArrowDown" && state() === "home") openShade();
+    });
+
+    // Clocks
+    const fTime = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: TIMEZONE });
+    const fDate = new Intl.DateTimeFormat("en-GB", { weekday: "short", day: "numeric", month: "short", timeZone: TIMEZONE });
+    const fLong = new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long", timeZone: TIMEZONE });
+    function tick() {
+      const now = new Date(), t = fTime.format(now), [h, m] = t.split(":");
+      document.getElementById("sbTime").textContent = t;
+      document.getElementById("shadeTime").textContent = t;
+      document.getElementById("lockH").textContent = h;
+      document.getElementById("lockM").textContent = m;
+      document.getElementById("lockDate").textContent = fLong.format(now);
+      document.getElementById("shadeDate").textContent = fDate.format(now);
+      document.getElementById("glanceDate").textContent = fDate.format(now);
+    }
+    tick(); setInterval(tick, 10000);
+  </script>
 </body>
 </html>
